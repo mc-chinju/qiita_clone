@@ -17,14 +17,12 @@
 #  confirmation_sent_at   :datetime
 #  unconfirmed_email      :string(255)
 #  name                   :string(255)
-#  nickname               :string(255)
 #  image                  :string(255)
 #  email                  :string(255)
 #  tokens                 :text(65535)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
