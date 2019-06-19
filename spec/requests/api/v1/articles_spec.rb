@@ -51,4 +51,20 @@ RSpec.describe "Articles", type: :request do
       end
     end
   end
+
+  describe "POST /articles" do
+    subject { post(api_v1_articles_path, params: params) }
+
+    let(:params) { { article: attributes_for(:article) } }
+
+    # FIXME: devise_token_auth の導入が完了次第修正すること
+    before { create(:user) }
+
+    it "記事のレコードが作成できる" do
+      aggregate_failures do
+        expect { subject }.to change { Article.count }.by(1)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
 end

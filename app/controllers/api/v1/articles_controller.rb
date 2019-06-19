@@ -12,7 +12,7 @@ module Api::V1
     end
 
     def create
-      article = Article.create!(article_params)
+      article = current_user.articles.create!(article_params)
       render json: article
     end
 
