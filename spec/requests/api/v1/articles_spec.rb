@@ -67,4 +67,20 @@ RSpec.describe "Articles", type: :request do
       end
     end
   end
+
+  describe "PATCH /articles/:id" do
+    subject { patch(api_v1_article_path(article_id), params: params) }
+
+    let(:params) { { article: attributes_for(:article) } }
+    let(:article) { create(:article) }
+    let(:article_id) { article.id }
+
+    it "任意のユーザーのレコードを更新できる" do
+      aggregate_failures do
+        expect { subject }.to change { Article.find(article_id).title }.from(article.title).to(params[:article][:title]) &
+                              change { Article.find(article_id).body }.from(article.body).to(params[:article][:body])
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
 end
