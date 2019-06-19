@@ -20,14 +20,14 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "GET /users/:id" do
+  describe "GET /articles/:id" do
     subject { get(api_v1_article_path(article_id)) }
 
-    context "指定した id のユーザーが存在する場合" do
+    context "指定した id の記事が存在する場合" do
       let(:article) { create(:article) }
       let(:article_id) { article.id }
 
-      it "任意のユーザーの値が取得できる" do
+      it "任意の記事の値が取得できる" do
         subject
 
         res = JSON.parse(response.body)
@@ -43,10 +43,10 @@ RSpec.describe "Articles", type: :request do
       end
     end
 
-    context "指定した id のユーザーが存在しない場合" do
+    context "指定した id の記事が存在しない場合" do
       let(:article_id) { 10000 }
 
-      it "ユーザーが見つからない" do
+      it "記事が見つからない" do
         expect { subject }.to raise_error ActiveRecord::RecordNotFound
       end
     end
