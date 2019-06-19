@@ -42,5 +42,13 @@ RSpec.describe "Articles", type: :request do
         end
       end
     end
+
+    context "指定した id のユーザーが存在しない場合" do
+      let(:article_id) { 10000 }
+
+      it "ユーザーが見つからない" do
+        expect { subject }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
   end
 end
