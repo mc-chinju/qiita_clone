@@ -1,7 +1,6 @@
 module Api::V1
   class ArticlesController < BaseApiController
-    before_action :set_article, only: [:show]
-    # before_action :set_article, only: [:show, :update, :destroy]
+    before_action :set_article, only: [:show, :update, :destroy]
 
     def index
       articles = Article.all
@@ -12,20 +11,20 @@ module Api::V1
       render json: @article
     end
 
-    # def create
-    #   article = Article.create!(article_params)
-    #   render json: article
-    # end
+    def create
+      article = Article.create!(article_params)
+      render json: article
+    end
 
-    # def update
-    #   @article.update!(article_params)
-    #   render json: @article
-    # end
+    def update
+      @article.update!(article_params)
+      render json: @article
+    end
 
-    # def destroy
-    #   @article.destroy!
-    #   render json: @article
-    # end
+    def destroy
+      @article.destroy!
+      render json: @article
+    end
 
     private
 
@@ -33,8 +32,8 @@ module Api::V1
         @article = Article.find(params[:id])
       end
 
-    # def article_params
-    #   params.require(:article).permit(:title, :body)
-    # end
+      def article_params
+        params.require(:article).permit(:title, :body)
+      end
   end
 end
