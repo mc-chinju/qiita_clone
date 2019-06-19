@@ -1,6 +1,6 @@
 module Api::V1
   class ArticlesController < BaseApiController
-    before_action :set_article, only: [:show, :update, :destroy]
+    before_action :set_article, only: [:update, :destroy]
 
     def index
       articles = Article.all
@@ -8,7 +8,8 @@ module Api::V1
     end
 
     def show
-      render json: @article
+      article = Article.find(params[:id])
+      render json: article
     end
 
     def create
@@ -23,13 +24,13 @@ module Api::V1
 
     def destroy
       @article.destroy!
-      render json: @article
+      render json: {}, status: 204
     end
 
     private
 
       def set_article
-        @article = Article.find(params[:id])
+        @article = current_user.articles.find(params[:id])
       end
 
       def article_params
