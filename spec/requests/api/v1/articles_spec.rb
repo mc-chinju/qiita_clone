@@ -1,8 +1,5 @@
 require "rails_helper"
 
-# FIXME: devise_token_auth 導入までの一時的なコードなため許容
-# rubocop:disable RSpec/AnyInstance
-
 RSpec.describe "Articles", type: :request do
   describe "GET /articles" do
     subject { get(api_v1_articles_path) }
@@ -56,12 +53,11 @@ RSpec.describe "Articles", type: :request do
   end
 
   describe "POST /articles" do
-    subject { post(api_v1_articles_path, params: params) }
+    subject { post(api_v1_articles_path, params: params, headers: headers) }
 
-    let(:params) { { article: attributes_for(:article) } }
-    # FIXME: devise_token_auth の導入が完了次第修正すること
     let(:current_user) { create(:user) }
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    let(:params) { { article: attributes_for(:article) } }
+    let(:headers) { authentication_headers_for(current_user) }
 
     it "記事のレコードが作成できる" do
       aggregate_failures do
@@ -72,12 +68,11 @@ RSpec.describe "Articles", type: :request do
   end
 
   describe "PATCH /articles/:id" do
-    subject { patch(api_v1_article_path(article.id), params: params) }
+    subject { patch(api_v1_article_path(article.id), params: params, headers: headers) }
 
-    let(:params) { { article: attributes_for(:article) } }
-    # FIXME: devise_token_auth の導入が完了次第修正すること
     let(:current_user) { create(:user) }
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    let(:params) { { article: attributes_for(:article) } }
+    let(:headers) { authentication_headers_for(current_user) }
 
     context "自分が所持している記事のレコードを更新しようとするとき" do
       let!(:article) { create(:article, user: current_user) }
@@ -105,12 +100,11 @@ RSpec.describe "Articles", type: :request do
   end
 
   describe "DELETE /articles/:id" do
-    subject { delete(api_v1_article_path(article_id)) }
+    subject { delete(api_v1_article_path(article_id), headers: headers) }
 
-    let(:article_id) { article.id }
-    # FIXME: devise_token_auth の導入が完了次第修正すること
     let(:current_user) { create(:user) }
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    let(:headers) { authentication_headers_for(current_user) }
+    let(:article_id) { article.id }
 
     context "自分が所持している記事のレコードを削除しようとするとき" do
       let!(:article) { create(:article, user: current_user) }
@@ -132,5 +126,3 @@ RSpec.describe "Articles", type: :request do
     end
   end
 end
-
-# rubocop:enable RSpec/AnyInstance
