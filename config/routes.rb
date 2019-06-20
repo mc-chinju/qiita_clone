@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'homes/index'
+  get "homes/index"
   root "homes#index"
 
   namespace :api, format: :json do
