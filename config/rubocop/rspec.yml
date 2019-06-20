@@ -73,5 +73,5 @@ RSpec/ReturnFromStub:
   Enabled: false
 
 # context ごとに let! を使い分けたい場合があるため無効に
-Rspec/LetSetup:
+RSpec/LetSetup:
   Enabled: false
