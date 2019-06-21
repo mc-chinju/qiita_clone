@@ -17,6 +17,14 @@ RSpec.describe "Api::V1::Auth::Registrations", type: :request do
           expect(data["provider"]).to eq "email"
           expect(data["name"]).to eq params[:name]
           expect(data["email"]).to eq params[:email]
+
+          # Header Info
+          headers = response.headers
+          expect(headers["access-token"]).to be_present
+          expect(headers["client"]).to be_present
+          expect(headers["expiry"]).to be_present
+          expect(headers["uid"]).to be_present
+          expect(headers["token-type"]).to be_present
         end
       end
     end
