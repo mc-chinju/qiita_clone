@@ -1,4 +1,4 @@
-import Vue from "vue/dist/vue.esm";
+import Vue from "vue";
 import Router from "./router/router";
 import Header from "./container/Header.vue";
 
