@@ -35,8 +35,10 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
 import VeeValidate from "vee-validate";
+import Router from "../router/router";
 
 Vue.use(VeeValidate, { locale: "ja" });
 
@@ -66,14 +68,29 @@ export default class RegisterContainer extends Vue {
     this.$validator.localize("en", this.dictionary);
   }
 
-  submit() {
+  async submit(): Promise<void> {
     this.$validator.validateAll();
+    const params = {
+      name: this.name,
+      email: this.email,
+      password: this.password
+    };
+
+    await axios
+      .post("/api/v1/auth", params)
+      .then(_response => {
+        Router.push("/");
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
-  clear() {
-    this.name = "";
-    this.email = "";
-    this.$validator.reset();
-  }
+  // clear() {
+  //   this.name = "";
+  //   this.email = "";
+  //   this.password = "";
+  //   this.$validator.reset();
+  // }
 }
 </script>
 
