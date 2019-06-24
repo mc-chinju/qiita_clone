@@ -11,10 +11,10 @@
     <v-spacer></v-spacer>
 
     <router-link to="/sign_up" class="header-link">
-      <v-btn flat class="register">ユーザー登録</v-btn>
+      <v-btn flat class="register font-weight-bold">ユーザー登録</v-btn>
     </router-link>
     <router-link to="/" class="header-link">
-      <v-btn flat class="login">ログイン</v-btn>
+      <v-btn flat class="font-weight-bold">ログイン</v-btn>
     </router-link>
   </v-toolbar>
 </template>
@@ -27,7 +27,6 @@
 .register {
   border: 2px solid #fff;
   border-radius: 5px;
-  font-weight: bold;
 }
 
 .login {
