@@ -20,7 +20,7 @@
       <router-link to="/sign_up" class="header-link">
         <v-btn flat class="register font-weight-bold">ユーザー登録</v-btn>
       </router-link>
-      <router-link to="/" class="header-link">
+      <router-link to="/sign_in" class="header-link">
         <v-btn flat class="font-weight-bold">ログイン</v-btn>
       </router-link>
     </div>
