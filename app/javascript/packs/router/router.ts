@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import ArticlesContainer from "../container/ArticlesContainer.vue";
 import RegisterContainer from "../container/RegisterContainer.vue";
 import LoginContainer from "../container/LoginContainer.vue";
+import EditArticleContainer from "../container/EditArticleContainer.vue";
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,7 @@ export default new VueRouter({
   routes: [
     { path: "/", component: ArticlesContainer },
     { path: "/sign_up", component: RegisterContainer },
-    { path: "/sign_in", component: LoginContainer }
+    { path: "/sign_in", component: LoginContainer },
+    { path: "/articles/new", component: EditArticleContainer }
   ]
 });
