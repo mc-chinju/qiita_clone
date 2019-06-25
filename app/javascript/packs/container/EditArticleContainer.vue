@@ -11,7 +11,7 @@
       class="body-form"
     ></v-textarea>
     <div class="text-xs-right">
-      <v-btn @click="submit" color="#55c500" class="font-weight-bold white--text">Qiitaに投稿</v-btn>
+      <v-btn @click="createArticle" color="#55c500" class="font-weight-bold white--text">Qiitaに投稿</v-btn>
     </div>
   </form>
 </template>
@@ -19,6 +19,7 @@
 <script lang="ts">
 import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
+import Router from "../router/router";
 
 const headers = {
   headers: {
@@ -32,18 +33,24 @@ const headers = {
 
 @Component
 export default class ArticlesContainer extends Vue {
-  articles: string[] = [];
+  title: string = "";
+  body: string = "";
 
-  async mounted(): Promise<void> {
-    await this.fetchArticles();
-  }
+  async createArticle(): Promise<void> {
+    const params = {
+      title: this.title,
+      body: this.body
+    };
 
-  async fetchArticles(): Promise<void> {
-    await axios.get("/api/v1/articles").then(response => {
-      response.data.map((article: any) => {
-        this.articles.push(article);
+    await axios
+      .post("/api/v1/articles", params, headers)
+      .then(_response => {
+        Router.push("/");
+      })
+      .catch(e => {
+        // TODO: 適切な Error 表示
+        alert(e.response.data.errors);
       });
-    });
   }
 }
 </script>
