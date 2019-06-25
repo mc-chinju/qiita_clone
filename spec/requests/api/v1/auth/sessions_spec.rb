@@ -66,11 +66,10 @@ RSpec.describe "Api::V1::Auth::Sessions", type: :request do
   end
 
   describe "DELETE /api/v1/auth/sign_out" do
-    subject { delete(destroy_api_v1_user_session_path, params: params, headers: headers) }
+    subject { delete(destroy_api_v1_user_session_path, headers: headers) }
 
     context "ログイン済みのユーザーの情報を送ったとき" do
       let(:user) { create(:user) }
-      let(:params) { { email: user.email, password: user.password } }
       let!(:headers) { authentication_headers_for(user) }
 
       it "トークン情報が削除される" do
