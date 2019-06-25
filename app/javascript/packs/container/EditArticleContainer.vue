@@ -10,6 +10,9 @@
       label="プログラミング知識をMarkdown記法で書いて共有しよう"
       class="body-form"
     ></v-textarea>
+    <div class="text-xs-right">
+      <v-btn @click="submit" color="#55c500" class="font-weight-bold white--text">Qiitaに投稿</v-btn>
+    </div>
   </form>
 </template>
 
