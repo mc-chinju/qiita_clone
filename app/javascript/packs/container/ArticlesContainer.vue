@@ -8,7 +8,9 @@
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title>{{ article.title }}</v-list-tile-title>
+            <v-list-tile-title class="article-title">
+              <router-link :to="{ name: 'article', params: { id: article.id }}">{{ article.title }}</router-link>
+            </v-list-tile-title>
             <v-list-tile-sub-title>
               by {{ article.user.name }}
               <time-ago
@@ -57,5 +59,18 @@ export default class ArticlesContainer extends Vue {
 <style lang="scss" scoped>
 .articles-container {
   margin-top: 2em;
+  .article-title {
+    a {
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    a:visited {
+      color: #777;
+    }
+  }
 }
 </style>
