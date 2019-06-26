@@ -8,7 +8,7 @@
       <h1 class="article-title">{{ article.title }}</h1>
     </v-layout>
     <v-layout class="article-body-container">
-      <div id="article-body">{{ article.body }}</div>
+      <div id="article-body" v-html="compiledMarkdown"></div>
     </v-layout>
   </v-container>
 </template>
@@ -17,6 +17,8 @@
 import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
 import TimeAgo from "vue2-timeago";
+import marked from "marked";
+import hljs from "highlight.js";
 
 @Component({
   components: {
@@ -28,6 +30,41 @@ export default class ArticleContainer extends Vue {
 
   async mounted(): Promise<void> {
     await this.fetchArticle(this.$route.params.id);
+  }
+
+  async created(): Promise<void> {
+    // Add 'hljs' class to code tag
+    const renderer = new marked.Renderer();
+    renderer.code = function(code, language) {
+      return (
+        "<pre" +
+        '><code class="hljs">' +
+        hljs.highlightAuto(code).value +
+        "</code></pre>"
+      );
+    };
+
+    marked.setOptions({
+      renderer: renderer,
+      tables: true,
+      sanitize: true,
+      langPrefix: "",
+      highlight: function(code, lang) {
+        if (!lang || lang == "default") {
+          return hljs.highlightAuto(code, [lang]).value;
+        } else {
+          try {
+            return hljs.highlight(lang, code, true).value;
+          } catch (e) {
+            // Do nonthing!
+          }
+        }
+      }
+    });
+  }
+
+  get compiledMarkdown() {
+    return marked(this.article.body);
   }
 
   async fetchArticle(id: string): Promise<void> {
@@ -49,7 +86,7 @@ export default class ArticleContainer extends Vue {
   margin-bottom: 1em;
 }
 .article-container {
-  margin: 2em;
+  margin-top: 2em;
 }
 .article-title {
   font-size: 2.5em;
