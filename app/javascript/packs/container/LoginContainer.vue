@@ -1,28 +1,30 @@
 <template>
-  <form>
-    <v-text-field
-      v-model="email"
-      v-validate="'required|email'"
-      :error-messages="errors.collect('email')"
-      label="メールアドレス"
-      data-vv-name="email"
-      required
-    ></v-text-field>
-    <v-text-field
-      v-model="password"
-      :append-icon="show ? 'visibility' : 'visibility_off'"
-      :type="show ? 'text' : 'password'"
-      v-validate="'required|min:8|max:50'"
-      :error-messages="errors.collect('password')"
-      name="password"
-      label="パスワード"
-      hint="At least 8 characters"
-      counter
-      @click:append="show = !show"
-    ></v-text-field>
+  <v-container>
+    <form>
+      <v-text-field
+        v-model="email"
+        v-validate="'required|email'"
+        :error-messages="errors.collect('email')"
+        label="メールアドレス"
+        data-vv-name="email"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        :append-icon="show ? 'visibility' : 'visibility_off'"
+        :type="show ? 'text' : 'password'"
+        v-validate="'required|min:8|max:50'"
+        :error-messages="errors.collect('password')"
+        name="password"
+        label="パスワード"
+        hint="At least 8 characters"
+        counter
+        @click:append="show = !show"
+      ></v-text-field>
 
-    <v-btn @click="submit" color="#55c500" class="white--text font-weight-bold">ログイン</v-btn>
-  </form>
+      <v-btn @click="submit" color="#55c500" class="white--text font-weight-bold">ログイン</v-btn>
+    </form>
+  </v-container>
 </template>
 
 <script lang="ts">

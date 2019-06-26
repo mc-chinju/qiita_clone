@@ -4,8 +4,8 @@ module Api::V1
     before_action :set_article, only: [:update, :destroy]
 
     def index
-      articles = Article.all
-      render json: articles
+      articles = Article.order(updated_at: :desc)
+      render json: articles, each_serializer: Api::V1::ArticlePreviewSerializer
     end
 
     def show
