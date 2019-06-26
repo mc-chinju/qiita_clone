@@ -9,7 +9,16 @@
 
           <v-list-tile-content>
             <v-list-tile-title>{{ article.title }}</v-list-tile-title>
-            <v-list-tile-sub-title>by {{ article.user.name }} {{ article.updated_at }}</v-list-tile-sub-title>
+            <v-list-tile-sub-title>
+              by {{ article.user.name }}
+              <time-ago
+                :refresh="60"
+                :datetime="article.updated_at"
+                locale="en"
+                tooltip="right"
+                long
+              ></time-ago>
+            </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider :key="index"></v-divider>
@@ -21,8 +30,13 @@
 <script lang="ts">
 import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
+import TimeAgo from "vue2-timeago";
 
-@Component
+@Component({
+  components: {
+    TimeAgo
+  }
+})
 export default class ArticlesContainer extends Vue {
   articles: string[] = [];
 
