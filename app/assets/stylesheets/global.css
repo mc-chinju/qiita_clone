@@ -10,3 +10,14 @@ body {
 #app {
   height: 100%;
 }
+
+/* highlightjs の 1行目のずれを強制 */
+
+code:before {
+  content: none !important;
+}
+
+.hljs span:first-child {
+  position: relative;
+  left: -2px;
+}
