@@ -1,15 +1,18 @@
 <template>
   <form class="article-form">
     <v-text-field outline single-line v-model="title" name="title" label="タイトル" class="title-form"></v-text-field>
-    <v-textarea
-      outline
-      no-resize
-      height="100%"
-      v-model="body"
-      name="body"
-      label="プログラミング知識をMarkdown記法で書いて共有しよう"
-      class="body-form"
-    ></v-textarea>
+    <div class="edit-area">
+      <v-textarea
+        outline
+        no-resize
+        height="100%"
+        v-model="body"
+        name="body"
+        label="プログラミング知識をMarkdown記法で書いて共有しよう"
+        class="body-form"
+      ></v-textarea>
+      <div v-html="compiledMarkdown(this.body)" class="preview">a</div>
+    </div>
     <div class="text-xs-right">
       <v-btn @click="createArticle" color="#55c500" class="font-weight-bold white--text">Qiitaに投稿</v-btn>
     </div>
@@ -20,6 +23,8 @@
 import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
 import Router from "../router/router";
+import marked from "marked";
+import hljs from "highlight.js";
 
 const headers = {
   headers: {
@@ -35,6 +40,38 @@ const headers = {
 export default class ArticlesContainer extends Vue {
   title: string = "";
   body: string = "";
+
+  async created(): Promise<void> {
+    // Add 'hljs' class to code tag
+    const renderer = new marked.Renderer();
+    let data = "";
+    renderer.code = function(code, lang) {
+      if (!lang || lang == "default") {
+        data = hljs.highlightAuto(code, [lang]).value;
+      } else {
+        try {
+          data = hljs.highlight(lang, code, true).value;
+        } catch (e) {
+          // Do nonthing!
+        }
+      }
+
+      return `<pre><code class="hljs"> ${data} </code></pre>`;
+    };
+
+    marked.setOptions({
+      renderer: renderer,
+      tables: true,
+      sanitize: true,
+      langPrefix: ""
+    });
+  }
+
+  get compiledMarkdown() {
+    return function(text: string) {
+      return marked(text);
+    };
+  }
 
   async createArticle(): Promise<void> {
     const params = {
@@ -64,6 +101,20 @@ export default class ArticlesContainer extends Vue {
 }
 .title-form {
   flex: none;
+}
+.edit-area {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+.preview {
+  width: 50%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.54);
+  border-radius: 4px;
+  border-left: none;
+  overflow: auto;
 }
 </style>
 

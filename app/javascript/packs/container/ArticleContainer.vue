@@ -8,7 +8,7 @@
       <h1 class="article-title">{{ article.title }}</h1>
     </v-layout>
     <v-layout class="article-body-container">
-      <div id="article-body" v-html="compiledMarkdown"></div>
+      <div class="article-body" v-html="compiledMarkdown(article.body)"></div>
     </v-layout>
   </v-container>
 </template>
@@ -35,36 +35,33 @@ export default class ArticleContainer extends Vue {
   async created(): Promise<void> {
     // Add 'hljs' class to code tag
     const renderer = new marked.Renderer();
-    renderer.code = function(code, language) {
-      return (
-        "<pre" +
-        '><code class="hljs">' +
-        hljs.highlightAuto(code).value +
-        "</code></pre>"
-      );
+    let data = "";
+    renderer.code = function(code, lang) {
+      if (!lang || lang == "default") {
+        data = hljs.highlightAuto(code, [lang]).value;
+      } else {
+        try {
+          data = hljs.highlight(lang, code, true).value;
+        } catch (e) {
+          // Do nonthing!
+        }
+      }
+
+      return `<pre><code class="hljs"> ${data} </code></pre>`;
     };
 
     marked.setOptions({
       renderer: renderer,
       tables: true,
       sanitize: true,
-      langPrefix: "",
-      highlight: function(code, lang) {
-        if (!lang || lang == "default") {
-          return hljs.highlightAuto(code, [lang]).value;
-        } else {
-          try {
-            return hljs.highlight(lang, code, true).value;
-          } catch (e) {
-            // Do nonthing!
-          }
-        }
-      }
+      langPrefix: ""
     });
   }
 
   get compiledMarkdown() {
-    return marked(this.article.body);
+    return function(text: string) {
+      return marked(text);
+    };
   }
 
   async fetchArticle(id: string): Promise<void> {
@@ -95,6 +92,9 @@ export default class ArticleContainer extends Vue {
 .article-body-container {
   margin: 2em 0;
   font-size: 16px;
+}
+.article-body {
+  width: 100%;
 }
 .user-name {
   margin-right: 1em;
