@@ -1,24 +1,33 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+本リポジトリは、[Take off Rails](https://freelance.cat-algorithm.com) の課題である Qiita clone 作成のサンプルコードです。
 
-Things you may want to cover:
+- Ruby version
+  2.6.2
 
-* Ruby version
+- Configuration
+  database.yml はサンプルファイルを準備しています。以下のコードを実行し、コピーしてください。
 
-* System dependencies
+```
+$ cp config/database.yml.sample config/database.yml
+```
 
-* Configuration
+- Setup Database
+  MySQL の Docker Image を使うようにしています。
 
-* Database creation
+```
+$ docker-compose up -d
+```
 
-* Database initialization
+起動できたら db を作成しましょう。
 
-* How to run the test suite
+```
+$ bundle exec rails db:setup
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+- How to run the test suite
+  テストは rspec を使っています。
 
-* Deployment instructions
-
-* ...
+```
+$ bundle exec rspec
+```
