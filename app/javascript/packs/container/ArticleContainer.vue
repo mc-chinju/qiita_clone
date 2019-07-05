@@ -3,6 +3,13 @@
     <v-layout xs-12 class="top-info-container">
       <span class="user-name">@{{ article.user.name }}</span>
       <time-ago :refresh="60" :datetime="article.updated_at" locale="en" tooltip="top" long></time-ago>
+      <v-spacer></v-spacer>
+      <v-btn fab flat dark small color="#55c500">
+        <v-icon dark>edit</v-icon>
+      </v-btn>
+      <v-btn fab flat dark small color="#55c500">
+        <v-icon dark>list</v-icon>
+      </v-btn>
     </v-layout>
     <v-layout>
       <h1 class="article-title">{{ article.title }}</h1>
