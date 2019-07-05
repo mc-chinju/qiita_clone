@@ -15,6 +15,7 @@ export default new VueRouter({
     { path: "/sign_up", component: RegisterContainer },
     { path: "/sign_in", component: LoginContainer },
     { path: "/articles/new", component: EditArticleContainer },
+    { path: "/articles/:id/edit", component: EditArticleContainer },
     { path: "/articles/:id", component: ArticleContainer, name: "article" }
   ]
 });

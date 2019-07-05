@@ -4,7 +4,15 @@
       <span class="user-name">@{{ article.user.name }}</span>
       <time-ago :refresh="60" :datetime="article.updated_at" locale="en" tooltip="top" long></time-ago>
       <v-spacer></v-spacer>
-      <v-btn fab flat dark small color="#55c500">
+      <v-btn
+        fab
+        flat
+        dark
+        small
+        color="#55c500"
+        @click="moveToEditArticlePage(article.id)"
+        v-if="editable"
+      >
         <v-icon dark>edit</v-icon>
       </v-btn>
       <v-btn fab flat dark small color="#55c500">
@@ -26,6 +34,7 @@ import { Vue, Component } from "vue-property-decorator";
 import TimeAgo from "vue2-timeago";
 import marked from "marked";
 import hljs from "highlight.js";
+import Router from "../router/router";
 
 @Component({
   components: {
@@ -67,6 +76,10 @@ export default class ArticleContainer extends Vue {
     };
   }
 
+  get editable(): boolean {
+    return localStorage.getItem("uid") === this.article.user.email;
+  }
+
   async fetchArticle(id: string): Promise<void> {
     await axios
       .get(`/api/v1/articles/${id}`)
@@ -77,6 +90,10 @@ export default class ArticleContainer extends Vue {
         // TODO: 適切な Error 表示
         alert(e.response.statusText);
       });
+  }
+
+  moveToEditArticlePage(id: string): void {
+    Router.push(`/articles/${id}/edit`);
   }
 }
 </script>
