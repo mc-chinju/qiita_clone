@@ -14,7 +14,16 @@
       <div v-html="compiledMarkdown(this.body)" class="preview">a</div>
     </div>
     <div class="text-xs-right">
-      <v-btn @click="createArticle" color="#55c500" class="font-weight-bold white--text">Qiitaに投稿</v-btn>
+      <v-btn
+        @click="createArticle('published')"
+        color="#55c500"
+        class="font-weight-bold white--text"
+      >Qiitaに投稿</v-btn>
+      <v-btn
+        @click="createArticle('drafttt')"
+        color="#55c500"
+        class="font-weight-bold white--text"
+      >下書き投稿</v-btn>
     </div>
   </form>
 </template>
@@ -69,16 +78,22 @@ export default class ArticlesContainer extends Vue {
     };
   }
 
-  async createArticle(): Promise<void> {
+  async createArticle(status: string): Promise<void> {
+    enum Statuses {
+      "draft" = "draft",
+      "published" = "published"
+    }
+
     const params = {
       title: this.title,
       body: this.body,
-      status: "published"
+      status: Statuses[status]
     };
 
     await axios
       .post("/api/v1/articles", params, headers)
       .then(_response => {
+        // TODO: 下書きの場合は下書き一覧ページに飛ばす
         Router.push("/");
       })
       .catch(e => {
