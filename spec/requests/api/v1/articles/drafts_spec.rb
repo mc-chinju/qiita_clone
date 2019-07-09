@@ -18,6 +18,7 @@ RSpec.describe "Articles::Drafts", type: :request do
       aggregate_failures do
         expect(response).to have_http_status(:ok)
         expect(res.length).to eq 1
+        expect(res[0]["id"]).to eq article1.id
         expect(res[0].keys).to eq ["id", "title", "updated_at", "user"]
         expect(res[0]["user"].keys).to eq ["id", "name", "email"]
       end

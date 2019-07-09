@@ -20,6 +20,9 @@ Rails.application.routes.draw do
         resources :drafts, only: [:index, :show]
       end
       resources :articles
+      namespace :current do
+        resources :articles, only: [:index]
+      end
     end
   end
 end
