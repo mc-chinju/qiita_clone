@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get "sign_up", to: "homes#index"
   get "sign_in", to: "homes#index"
   get "articles/new", to: "homes#index"
+  get "articles/draft", to: "homes#index"
+  get "articles/drafts/:id/edit", to: "homes#index"
   get "articles/:id/edit", to: "homes#index"
   get "articles/:id", to: "homes#index"
 
@@ -14,6 +16,9 @@ Rails.application.routes.draw do
         registrations: "api/v1/auth/registrations",
         sessions: "api/v1/auth/sessions",
       }
+      namespace :articles do
+        resources :drafts, only: [:index, :show]
+      end
       resources :articles
     end
   end
