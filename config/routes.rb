@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get "sign_up", to: "homes#index"
   get "sign_in", to: "homes#index"
   get "articles/new", to: "homes#index"
+  get "articles/draft", to: "homes#index"
+  get "articles/drafts/:id/edit", to: "homes#index"
   get "articles/:id/edit", to: "homes#index"
   get "articles/:id", to: "homes#index"
 
