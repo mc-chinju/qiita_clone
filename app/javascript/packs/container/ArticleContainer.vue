@@ -15,8 +15,8 @@
       >
         <v-icon dark>edit</v-icon>
       </v-btn>
-      <v-btn fab flat dark small color="#55c500">
-        <v-icon dark>list</v-icon>
+      <v-btn fab flat dark small color="#55c500" @click="confirmDeleteArticle">
+        <v-icon dark>fas fa-trash-alt</v-icon>
       </v-btn>
     </v-layout>
     <v-layout>
@@ -35,6 +35,16 @@ import TimeAgo from "vue2-timeago";
 import marked from "marked";
 import hljs from "highlight.js";
 import Router from "../router/router";
+
+const headers = {
+  headers: {
+    Authorization: "Bearer",
+    "Access-Control-Allow-Origin": "*",
+    "access-token": localStorage.getItem("access-token"),
+    client: localStorage.getItem("client"),
+    uid: localStorage.getItem("uid")
+  }
+};
 
 @Component({
   components: {
@@ -94,6 +104,22 @@ export default class ArticleContainer extends Vue {
 
   moveToEditArticlePage(id: string): void {
     Router.push(`/articles/${id}/edit`);
+  }
+
+  async confirmDeleteArticle(): Promise<void> {
+    const result = confirm("この記事を削除してもよろしいですか？")
+
+    if (result) {
+      await axios
+        .delete(`/api/v1/articles/${this.article.id}`, headers)
+        .then(_response => {
+          Router.push("/")
+        })
+        .catch(e => {
+          // TODO: 適切な Error 表示
+          alert(e.response.statusText);
+        });
+    }
   }
 }
 </script>
