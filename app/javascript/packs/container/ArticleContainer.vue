@@ -16,7 +16,7 @@
         <v-icon dark>edit</v-icon>
       </v-btn>
       <v-btn fab flat dark small color="#55c500">
-        <v-icon dark>list</v-icon>
+        <v-icon dark>fas fa-trash-alt</v-icon>
       </v-btn>
     </v-layout>
     <v-layout>
