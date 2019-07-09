@@ -18,6 +18,7 @@
     "vuetify": "^1.5.16"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "webpack-dev-server": "^3.7.2"
   }
 }
