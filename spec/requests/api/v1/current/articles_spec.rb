@@ -7,7 +7,8 @@ RSpec.describe "Current::Articles", type: :request do
     let(:current_user) { create(:user) }
     let(:headers) { authentication_headers_for(current_user) }
 
-    let!(:article) { create(:article, :published, user: current_user) }
+    let!(:article1) { create(:article, :published, user: current_user, created_at: 10.days.ago, updated_at: 1.day.ago) }
+    let!(:article2) { create(:article, :published, user: current_user, created_at: 3.days.ago, updated_at: 2.days.ago) }
 
     before do
       create(:article, :draft, user: current_user)
@@ -21,9 +22,9 @@ RSpec.describe "Current::Articles", type: :request do
 
       aggregate_failures do
         expect(response).to have_http_status(:ok)
-        expect(res.length).to eq 1
-        expect(res[0]["id"]).to eq article.id
-        expect(res[0].keys).to eq ["id", "title", "updated_at", "user"]
+        expect(res.length).to eq 2
+        expect(res.map {|d| d["id"] }).to eq [article2.id, article1.id]
+        expect(res[0].keys).to eq ["id", "title", "created_at", "user"]
         expect(res[0]["user"].keys).to eq ["id", "name", "email"]
       end
     end
