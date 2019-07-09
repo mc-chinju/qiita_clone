@@ -16,11 +16,12 @@
               by {{ article.user.name }}
               <time-ago
                 :refresh="60"
-                :datetime="article.updated_at"
+                :datetime="article.created_at"
                 locale="en"
                 tooltip="right"
                 long
               ></time-ago>
+              <span>に投稿</span>
             </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
