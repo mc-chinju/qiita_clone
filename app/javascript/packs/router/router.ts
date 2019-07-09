@@ -7,6 +7,7 @@ import LoginContainer from "../container/LoginContainer.vue";
 import EditArticleContainer from "../container/EditArticleContainer.vue";
 import DraftArticlesContainer from "../container/DraftArticlesContainer.vue";
 import EditDraftArticleContainer from "../container/EditDraftArticleContainer.vue";
+import MyPageContainer from "../container/MyPageContainer.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ export default new VueRouter({
     { path: "/articles/drafts", component: DraftArticlesContainer },
     { path: "/articles/:id/edit", component: EditArticleContainer },
     { path: "/articles/drafts/:id/edit", component: EditDraftArticleContainer },
-    { path: "/articles/:id", component: ArticleContainer, name: "article" }
+    { path: "/articles/:id", component: ArticleContainer, name: "article" },
+    { path: "/mypage", component: MyPageContainer }
   ]
 });
