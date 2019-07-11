@@ -6,18 +6,22 @@ ruby "2.6.2"
 gem "active_model_serializers", "~> 0.10.0"
 gem "bootsnap", ">= 1.1.0", require: false
 gem "devise_token_auth"
-gem "mysql2", ">= 0.4.4", "< 0.6.0"
 gem "puma", "~> 3.11"
 gem "rails", "~> 5.2.3"
 gem "turbolinks", "~> 5"
 gem "webpacker"
 
 group :development, :test do
+  gem "mysql2", ">= 0.4.4", "< 0.6.0"
   gem "pry-byebug"
   gem "pry-doc"
   gem "pry-rails"
   gem "rubocop-rails"
   gem "rubocop-rspec"
+end
+
+group :production do
+  gem "pg"
 end
 
 group :development do
