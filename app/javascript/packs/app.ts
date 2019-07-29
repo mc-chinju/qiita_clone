@@ -4,7 +4,7 @@ import Header from "./container/Header.vue";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import "highlight.js/styles/monokai.css";
-import "@fortawesome/fontawesome-free/css/all.css";
+// import "@fortawesome/fontawesome-free/css/all.css";
 
 Vue.use(Vuetify);
 Vue.use(Vuetify, {
